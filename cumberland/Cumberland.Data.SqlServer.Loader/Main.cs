@@ -139,9 +139,22 @@ namespace Cumberland.Data.SqlServer.Loader
                                                 encoding);
 			#endregion		
 
-			#region create table
+            #region drop table if not exists
+            if (!append)
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    StringBuilder sql = new StringBuilder();
+                    SqlCommand command = new SqlCommand(string.Format("IF OBJECT_ID('{0}', 'U') IS NOT NULL drop table {0}", tableName), connection);
+                    command.ExecuteNonQuery();
+                }
+            }
+            #endregion
+            
+            #region create table
 
-			using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				connection.Open();
 				StringBuilder sql = new StringBuilder();
