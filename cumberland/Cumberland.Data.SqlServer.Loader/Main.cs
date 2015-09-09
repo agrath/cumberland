@@ -203,8 +203,13 @@ namespace Cumberland.Data.SqlServer.Loader
 				#region insert rows
 				
 				int idx = 0;
-				foreach (Feature f in shp.GetFeatures())
-		        {
+                var features = shp.GetFeatures();
+                var count = features.Count;
+                int index = 0;
+                foreach (Feature f in features)
+                {
+                    index++;
+                    Console.WriteLine(string.Format("{0}/{1} ({2}%)", index, count, Math.Round((((decimal)index / (decimal)count) * 100), 2)));
 					sql = new StringBuilder();
 					sql.AppendFormat("insert into {0} values (", tableName);
 	
