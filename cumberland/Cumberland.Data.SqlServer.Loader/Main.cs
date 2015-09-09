@@ -221,8 +221,9 @@ namespace Cumberland.Data.SqlServer.Loader
                             }
                             else
                             {
-                                sql.AppendFormat("CAST('{0}' AS date)",
-                                    ((DateTime)field).ToShortDateString());
+                                DateTime dtField = ((DateTime)field);
+                                string dtFieldString = string.Format("{0:yyyyMMdd}", dtField);
+                                sql.AppendFormat("CAST('{0}' AS date)", dtFieldString);
                             }
 						}
 						else if (dc.DataType == typeof(double))
